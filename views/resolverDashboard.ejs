@@ -148,24 +148,38 @@
         border: none;
         cursor: pointer;
       }
+      @media (max-width: 767px) {
+        .dashboard-container {
+          display: flex;
+          flex-direction: column;
+        }
+        .dashboard-nav {
+          background-color: #333;
+          padding: 20px;
+          flex: 0 0 0;
+        }
+        .dashboard-content {
+          padding: 1rem;
+        }
+      }
     </style>
   </head>
   <body>
     <%- include('partials/resolverdashboardnavbar') %>
     <div class="dashboard-container">
-      <nav class="dashboard-nav">
-        <ul>
-          <!-- Button trigger modal -->
+      <!-- <nav class="dashboard-nav"> -->
+      <!-- <ul> -->
+      <!-- Button trigger modal -->
 
-          <!-- Modal -->
-        </ul>
-      </nav>
+      <!-- Modal -->
+      <!-- </ul> -->
+      <!-- </nav> -->
       <section class="dashboard-content">
         <h2>Welcome to Your Dashboard</h2>
         <p>Explore your tickets and manage your tasks efficiently.</p>
         <div class="ticket-container">
-          <% tickets.forEach(ticket => { %> <% if (ticket.status==='pending') {
-          %>
+          <% if (typeof tickets!=='undefined') { %> <% tickets.forEach(ticket =>
+          { %> <% if (ticket.status==='pending') { %>
           <div class="ticket-card">
             <div class="ticket-card-header">
               <h3 class="ticket-card-heading"><%= ticket.title %></h3>
@@ -243,7 +257,7 @@
               </div>
             </div>
           </div>
-          <% } %> <% }); %>
+          <% } %> <% }); %> <% } %>
         </div>
       </section>
     </div>

@@ -6,6 +6,13 @@ const session = require("express-session");
 
 const resolverRouter = express.Router();
 
+resolverRouter.get("/home", (req, res) => {
+  if (req.session.resolverIsLoggedIn) {
+    return res.redirect("/resolver/dashboard");
+  }
+  res.redirect("/");
+});
+
 resolverRouter.get("/login", (req, res) => {
   if (req.session.resolverIsLoggedIn) {
     return res.render("resolverDashboard");

@@ -10,11 +10,13 @@
     <style>
       /* Additional styles for the dashboard page */
       /* * {
-        margin: 0;
-        padding: 0;
-      } */
+          margin: 0;
+          padding: 0;
+        } */
+
       .dashboard-container {
         display: flex;
+        padding: 0;
         min-height: 100vh;
       }
 
@@ -133,15 +135,27 @@
       .chat-btn {
         padding: 5px 10px;
         background-color: #333;
-        color: #fff;
+        color: #747fff;
         border: none;
         cursor: pointer;
+      }
+      @media (max-width: 767px) {
+        .dashboard-container {
+          display: flex;
+          flex-direction: column;
+        }
+        .dashboard-nav {
+          background-color: #333;
+          padding: 20px;
+          flex: 0 0 0;
+        }
       }
     </style>
   </head>
   <body>
     <%- include('partials/dashboardnavbar') %>
-    <div class="dashboard-container">
+
+    <div class="container-fluid dashboard-container">
       <nav class="dashboard-nav">
         <ul>
           <li>

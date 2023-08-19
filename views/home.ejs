@@ -92,6 +92,19 @@
         border: none;
         cursor: pointer;
       }
+      @media (max-width: 767px) {
+        .right {
+          display: none;
+        }
+        .main-section {
+          margin: auto 2rem;
+          padding: 2rem 0;
+        }
+        .left {
+          margin: 0;
+          width: 100%;
+        }
+      }
     </style>
     <%- include('partials/bootstrapcss') %>
   </head>
@@ -112,7 +125,7 @@
     </section>
     <section id="Contact" class="contact-section">
       <h2>Contact Us</h2>
-      <form>
+      <form class="container-fluid">
         <input type="text" placeholder="Your Name" />
         <input type="email" placeholder="Your Email" />
         <textarea placeholder="Your Message"></textarea>

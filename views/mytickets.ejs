@@ -121,8 +121,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 5px;
       }
-
+      .ticket-footer-right {
+        display: flex;
+        gap: 3px;
+      }
       .priority-label {
         font-weight: bold;
         padding: 3px 8px;
@@ -148,6 +152,17 @@
         color: #fff;
         border: none;
         cursor: pointer;
+      }
+      @media (max-width: 767px) {
+        .dashboard-container {
+          display: flex;
+          flex-direction: column;
+        }
+        .dashboard-nav {
+          background-color: #333;
+          padding: 20px;
+          flex: 0 0 0;
+        }
       }
     </style>
   </head>
@@ -316,7 +331,7 @@
               <span class="assignee"
                 ><strong>Assignee:</strong> <%= ticket.assignedTo %></span
               >
-              <div>
+              <div class="ticket-footer-right">
                 <span
                   class="priority-label priority-<%= ticket.priorityLevel %>"
                   ><%= ticket.priorityLevel %></span

@@ -38,6 +38,8 @@ app.use("/resolver", resolverRouter);
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
     return res.redirect("/user/dashboard");
+  } else if (req.session.resolverIsLoggedIn) {
+    return res.redirect("/resolver/dashboard");
   }
   res.render("home");
 });
