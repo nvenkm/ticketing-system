@@ -13,6 +13,7 @@ function handleSendUserDashboardPage(req, res) {
   try {
     res.render("dashboard", {
       departments: ["Lakshmi Chit Fund", "SBI"],
+      username: req.session.fullName,
     });
   } catch (error) {
     console.log("ERROR FETCHING TICKETS:", error.message);
@@ -35,7 +36,7 @@ async function handleUserSignup(req, res) {
     const user = new User(req.body);
     const savedUser = await user.save();
     if (savedUser) {
-      res.redirect("/user/login");
+      res.status(201).redirect("/user/login");
     }
   } catch (error) {
     console.log(error.message);
@@ -52,7 +53,7 @@ async function handleUserLogin(req, res) {
     req.session.email = user.email;
     req.session.fullName = user.fullName;
     req.session.userType = user.userType;
-    res.redirect("/user/dashboard");
+    res.status(200).redirect("/user/dashboard");
   } else {
     res.render("login", { message: "Wrong Email Id or Password" });
   }

@@ -1,6 +1,5 @@
 const express = require("express");
 const ticketRouter = express.Router();
-const { Ticket } = require("../models/ticket");
 const {
   handleCreateTicket,
   handleCloseTicket,

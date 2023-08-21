@@ -21,7 +21,7 @@ async function handleResolverLogin(req, res) {
       email: req.body.email,
       password: req.body.password,
     });
-    console.log(resolver);
+    // console.log(resolver);
     if (!resolver) {
       return res.render("resolverLogin", {
         message: "Incorrect Username or Password",
@@ -44,7 +44,10 @@ async function handleResolverDashboard(req, res) {
       return res.redirect("/resolver/login");
     }
     const tickets = await Ticket.find({ assignedTo: req.session.department });
-    res.render("resolverDashboard", { tickets });
+    res.render("resolverDashboard", {
+      tickets,
+      resolverName: req.session.name,
+    });
   } catch (error) {
     console.log(error.message);
   }

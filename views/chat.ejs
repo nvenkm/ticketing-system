@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .chat-container {
+      width: 80vw;
+      height: 70vh;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f7f7f7;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      overflow-y: scroll;
+    }
+
+    .message {
+      display: flex;
+      /* flex-direction: column; */
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    }
+    /* 
+    .user-message {
+      align-self: flex-end;
+      background-color: #fff;
+    }
+
+    .bot-message {
+      align-self: flex-start;
+      background-color: #f0f0f0;
+    } */
+
+    .message:nth-of-type(odd) {
+      background: #efefef;
+    }
+
+    .message-info {
+      color: #888;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .input-container {
+      display: flex;
+      /* margin-top: 10px; */
+      width: 79vw;
+      margin: auto;
+      padding: 0px 20px 20px;
+    }
+
+    .message-input {
+      flex-grow: 1;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .send-button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sender {
+      margin-right: 10px;
+      width: fit-content;
+    }
+    .message-text {
+      margin: 0;
+    }
+
+    .name-message-container {
+      display: flex;
+    }
+  </style>
+  <%- include('partials/bootstrapcss') %>
+  <body>
+    <%- include('partials/dashboardnavbar') %>
+    <div class="container headings">
+      <h4 class="greet">Hi <span class="username"><%= username %></span></h4>
+      <h4>
+        Chatting Regarding Ticket <span class="ticketId"><%= ticketId %></span>
+      </h4>
+    </div>
+    <div class="container chat-container" id="chatContainer">
+      <!-- Messages will be inserted here -->
+      <% if (typeof oldMessages !=='undefined') { %> <%
+      oldMessages.forEach(message=>{ %>
+      <div class="message">
+        <div class="name-message-container">
+          <span class="sender"><%=message.sender%></span>
+          <p class="message-text"><%=message.messageText%></p>
+        </div>
+      </div>
+      <% })%> <% } %>
+    </div>
+    <form class="container input-container" id="message-form">
+      <input
+        class="message-input"
+        id="messageInput"
+        type="text"
+        placeholder="Type your message"
+      />
+      <input class="file-input" id="fileInput" type="file" />
+      <button type="submit" class="send-button" id="sendButton">Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      const socket = io();
+      const ticketIdElement = document.querySelector(".ticketId");
+      const ticketId = ticketIdElement.textContent;
+      console.log(ticketId);
+      // JavaScript code for handling messages and sending data goes here
+      const chatContainer = document.getElementById("chatContainer");
+      const messageInput = document.getElementById("messageInput");
+      const fileInput = document.getElementById("fileInput");
+      const sendButton = document.getElementById("sendButton");
+      const messageForm = document.getElementById("message-form");
+      const sender = document.querySelector(".username").textContent;
+      socket.emit("join-room", ticketId);
+
+      messageForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const message = messageInput.value;
+        if (message.trim() !== "") {
+          socket.emit("chat-message", { message, ticketId, sender });
+        }
+      });
+
+      socket.on("chat-message", (data) => {
+        const messageSender =
+          data.sentBy === sender ? "You:" : data.sentBy + ":";
+        const messageElement = createMessageElement(
+          messageSender,
+          data.message
+        );
+        chatContainer.appendChild(messageElement);
+        messageInput.value = "";
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      });
+
+      function createMessageElement(name, message) {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = "message ";
+
+        const messageContent = `
+          <div class="name-message-container" >
+          <span class="sender" >${name}</span>
+          <p class="message-text" >${message}</p>
+          </div>
+        `;
+
+        messageDiv.innerHTML = messageContent;
+        return messageDiv;
+      }
+    </script>
+
+    <%- include('partials/bootstrapjs') %> <%- include('partials/footer') %>
+  </body>
+</html>

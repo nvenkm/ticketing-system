@@ -151,7 +151,14 @@
         background-color: #333;
         color: #fff;
         border: none;
+        text-decoration: none;
         cursor: pointer;
+      }
+      .chat-btn:hover {
+        background-color: #3c3b3b;
+      }
+      .chat-btn:active {
+        background-color: #3c3b3b;
       }
       @media (max-width: 767px) {
         .dashboard-content {
@@ -166,6 +173,73 @@
           padding: 20px;
           flex: 0 0 0;
         }
+      }
+
+      /* CSS for chat box */
+      .chat-modal {
+        /* position: fixed; */
+        /* top: 0; */
+        /* left: 0; */
+        width: 100%;
+        height: 100%;
+        /* background-color: rgba(0, 0, 0, 0.5); */
+      }
+
+      .chat-modal-content {
+        background-color: white;
+        width: 80%;
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        height: 70vh;
+        position: relative;
+      }
+
+      .messages-container {
+        height: 200px;
+        border: 1px solid #ccc;
+        overflow-y: auto;
+        height: 90%;
+        padding: 10px;
+      }
+
+      .messages-container > div:nth-child(odd) {
+        background-color: #dad8d8;
+      }
+
+      .message {
+        padding: 0.2rem;
+      }
+
+      .input-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      #chatInput {
+        flex-grow: 1;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #sendButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -265,6 +339,9 @@
         <h2>Your Tickets</h2>
         <p>Explore your tickets and manage your tasks efficiently.</p>
         <div class="ticket-container">
+          <!-- Create tickets -->
+
+          <!-- create a ticket for each ticket got from the server -->
           <% tickets.forEach(ticket => { %>
           <div class="ticket-card">
             <div class="ticket-card-header">
@@ -339,7 +416,15 @@
                   class="priority-label priority-<%= ticket.priorityLevel %>"
                   ><%= ticket.priorityLevel %></span
                 >
-                <button class="chat-btn">Chat</button>
+                <a
+                  href="/chat?ticketId=<%= ticket._id %>&department=<%= ticket.assignedTo %>"
+                  ticket-id="<%= ticket._id %>"
+                  type="button"
+                  id="chat-button"
+                  class="chat-btn"
+                >
+                  Chat
+                </a>
               </div>
             </div>
           </div>

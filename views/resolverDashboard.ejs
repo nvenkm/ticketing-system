@@ -146,6 +146,7 @@
         background-color: #333;
         color: #fff;
         border: none;
+        text-decoration: none;
         cursor: pointer;
       }
       @media (max-width: 767px) {
@@ -175,8 +176,15 @@
       <!-- </ul> -->
       <!-- </nav> -->
       <section class="dashboard-content">
-        <h2>Welcome to Your Dashboard</h2>
-        <p>Explore your tickets and manage your tasks efficiently.</p>
+        <% if (typeof resolverName!=='undefined') { %>
+        <h2>Welcome <%= resolverName %></h2>
+        <% } else{ %>
+        <h2>Welcome</h2>
+        <%}%>
+
+        <p>
+          Resove your department's tickets and manage your tasks efficiently.
+        </p>
         <div class="ticket-container">
           <% if (typeof tickets!=='undefined') { %> <% tickets.forEach(ticket =>
           { %> <% if (ticket.status==='pending') { %>
@@ -253,7 +261,11 @@
                   class="priority-label priority-<%= ticket.priorityLevel %>"
                   ><%= ticket.priorityLevel %></span
                 >
-                <button class="chat-btn">Chat</button>
+                <a
+                  href="/chat?ticketId=<%= ticket._id %>&department=<%= ticket.assignedTo %>"
+                  class="chat-btn"
+                  >Chat</a
+                >
               </div>
             </div>
           </div>

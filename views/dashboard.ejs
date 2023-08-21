@@ -8,12 +8,6 @@
     %>
 
     <style>
-      /* Additional styles for the dashboard page */
-      /* * {
-          margin: 0;
-          padding: 0;
-        } */
-
       .dashboard-container {
         display: flex;
         padding: 0;
@@ -83,59 +77,6 @@
         padding: 10px 20px;
         background-color: #333;
         color: #fff;
-        border: none;
-        cursor: pointer;
-      }
-
-      /* cards */
-      .ticket-card {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin-bottom: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .ticket-card-heading {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-
-      .ticket-card-description {
-        font-size: 16px;
-        margin-bottom: 15px;
-      }
-
-      .ticket-card-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .priority-label {
-        font-weight: bold;
-        padding: 3px 8px;
-        border-radius: 3px;
-        color: #fff;
-      }
-
-      .priority-low {
-        background-color: green;
-      }
-
-      .priority-medium {
-        background-color: orange;
-      }
-
-      .priority-high {
-        background-color: red;
-      }
-
-      .chat-btn {
-        padding: 5px 10px;
-        background-color: #333;
-        color: #747fff;
         border: none;
         cursor: pointer;
       }
@@ -249,7 +190,12 @@
         </ul>
       </nav>
       <section class="dashboard-content">
-        <h2>Welcome to Your Dashboard</h2>
+        <% if (typeof username!=='undefined') { %>
+        <h2>Welcome <%= username %></h2>
+        <% } else{ %>
+        <h2>Welcome</h2>
+        <%}%>
+        <!-- <h2>Welcome to Your Dashboard</h2> -->
         <p>Explore your tickets and manage your tasks efficiently.</p>
       </section>
     </div>
