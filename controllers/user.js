@@ -37,7 +37,7 @@ async function handleUserSignup(req, res) {
       return res.render("signup", { message: "Enter a valid Password" });
     }
     const newUser = {
-      fullName: req.body.fullName.trim().toLowerCase(),
+      fullName: req.body.fullName.trim(),
       email: req.body.email,
       password: req.body.password,
       userType: req.body.userType,
