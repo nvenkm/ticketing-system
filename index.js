@@ -19,7 +19,7 @@ const { Message } = require("./models/message");
 dotenv.config();
 
 const PORT = process.env.PORT;
-const uri = process.env.URI;
+const uri = process.env.URL;
 
 //connect to mongoDB
 mongoose.connect(uri).then(() => {
