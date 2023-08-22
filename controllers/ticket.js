@@ -1,6 +1,9 @@
 const { Ticket } = require("../models/ticket");
 
 async function handleGetAllTickets(req, res) {
+  if (!req.session.isLoggedIn) {
+    return res.redirect("/");
+  }
   const tickets = await Ticket.find({ createdBy: req.session.email });
   res.render("mytickets", {
     tickets,

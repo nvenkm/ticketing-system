@@ -64,6 +64,8 @@ server.listen(PORT, () => {
   console.log(`Server Runnning on PORT ${PORT}`);
 });
 
+//socket.io code
+
 io.on("connection", (socket) => {
   socket.on("join-room", (ticketId) => {
     socket.join(ticketId);
@@ -71,7 +73,7 @@ io.on("connection", (socket) => {
   console.log("A user connected");
 
   socket.on("chat-message", async (data) => {
-    console.log(data.message);
+    // console.log(data.message);
     const newMessage = new Message({
       sender: data.sender,
       messageText: data.message,

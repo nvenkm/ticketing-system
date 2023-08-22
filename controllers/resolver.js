@@ -3,7 +3,8 @@ const { Ticket } = require("../models/ticket");
 
 function handleResolverSendLoginPage(req, res) {
   if (req.session.resolverIsLoggedIn) {
-    return res.render("resolverDashboard");
+    // return res.render("resolverDashboard");
+    return res.redirect("/resolver/dashboard");
   }
   res.render("resolverLogin");
 }
