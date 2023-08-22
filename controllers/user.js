@@ -30,10 +30,21 @@ function handleSendUserLoginPage(req, res) {
 
 async function handleUserSignup(req, res) {
   try {
-    if (await User.findOne({ email: req.body.email })) {
+    if (await User.findOne({ email: req.body.email.trim().toLowerCase() })) {
       return res.render("signup", { message: "User Already Exists" });
     }
-    const user = new User(req.body);
+    if (req.body.password.includes(" ")) {
+      return res.render("signup", { message: "Enter a valid Password" });
+    }
+    const newUser = {
+      fullName: req.body.fullName.trim().toLowerCase(),
+      email: req.body.email,
+      password: req.body.password,
+      userType: req.body.userType,
+    };
+    // console.log(newUser);
+    // console.log(req.body);
+    const user = new User(newUser);
     const savedUser = await user.save();
     if (savedUser) {
       res.status(201).redirect("/user/login");

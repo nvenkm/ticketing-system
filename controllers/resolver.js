@@ -19,7 +19,7 @@ function handleResolverSendHomePage(req, res) {
 async function handleResolverLogin(req, res) {
   try {
     const resolver = await Resolver.findOne({
-      email: req.body.email,
+      email: req.body.email.trim().toLowerCase(),
       password: req.body.password,
     });
     // console.log(resolver);
