@@ -8,7 +8,7 @@ closeTicketButtons.forEach((closeTicketButton) => {
     })
       .then((response) => {
         if (response.ok) {
-          window.location.href = "/ticket";
+          window.location.href = "/";
         }
       })
       .catch((error) => {
