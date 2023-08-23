@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Employee Dashboard - Ticket Master</title>
+    <title>Dashboard - Ticket Management App</title>
     <%- include('partials/bootstrapcss') %> <%- include('partials/bootstrapcss')
     %>
 
@@ -86,6 +86,7 @@
       }
 
       /* cards */
+
       .ticket-container {
         display: flex;
         gap: 1rem;
@@ -120,8 +121,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 5px;
       }
-
+      .ticket-footer-right {
+        display: flex;
+        gap: 3px;
+      }
       .priority-label {
         font-weight: bold;
         padding: 3px 8px;
@@ -149,7 +154,16 @@
         text-decoration: none;
         cursor: pointer;
       }
+      .chat-btn:hover {
+        background-color: #3c3b3b;
+      }
+      .chat-btn:active {
+        background-color: #3c3b3b;
+      }
       @media (max-width: 767px) {
+        .dashboard-content {
+          padding: 1rem;
+        }
         .dashboard-container {
           display: flex;
           flex-direction: column;
@@ -159,17 +173,12 @@
           padding: 20px;
           flex: 0 0 0;
         }
-        .dashboard-content {
-          padding: 1rem;
-        }
       }
     </style>
   </head>
   <body>
     <%- include('partials/employeedashboardnavbar') %>
-
     <div class="dashboard-container">
-      <!-- dashboard sidebar -->
       <nav class="dashboard-nav">
         <ul>
           <li>
@@ -256,108 +265,21 @@
               </div>
             </div>
           </div>
-          <li><a href="/ticket/employee">My Tickets</a></li>
+          <li><a href="#">My Tickets</a></li>
         </ul>
       </nav>
-
       <section class="dashboard-content">
-        <% if (typeof employeeName!=='undefined') { %>
-        <h2>Welcome <%= employeeName %></h2>
-        <% } else{ %>
-        <h2>Welcome</h2>
-        <%}%>
-
-        <p>
-          Resove your department's tickets and manage your tasks efficiently.
-        </p>
+        <h2>Your Tickets</h2>
+        <p>Explore your tickets and manage your tasks efficiently.</p>
         <div class="ticket-container">
-          <% if (typeof tickets!=='undefined') { %> <% tickets.forEach(ticket =>
-          { %> <% if (ticket.status==='pending') { %>
-          <div class="ticket-card">
-            <div class="ticket-card-header">
-              <h3 class="ticket-card-heading"><%= ticket.title %></h3>
-              <% if (ticket.status==='pending') { %>
-              <!-- Button trigger modal -->
+          <!-- Create tickets -->
 
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                data-bs-toggle="modal"
-                data-bs-target="#exampleModal1"
-              >
-                Close
-              </button>
-
-              <!-- Modal -->
-              <div
-                class="modal fade"
-                id="exampleModal1"
-                tabindex="-1"
-                aria-labelledby="exampleModal1Label"
-                aria-hidden="true"
-              >
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModal1Label">
-                        Confirmation
-                      </h1>
-                      <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                      ></button>
-                    </div>
-                    <div class="modal-body">
-                      Are you sure you want to close the ticket?
-                    </div>
-                    <div class="modal-footer">
-                      <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                      >
-                        Cancel
-                      </button>
-                      <a
-                        ticket-id="<%= ticket._id %>"
-                        id="close-ticket-button"
-                        class="btn btn-primary"
-                      >
-                        Confirm</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <% }else { } %>
-            </div>
-            <p class="ticket-card-description"><%= ticket.description %></p>
-            <span class="ticket-card-description"
-              ><strong>Status:</strong> <%= ticket.status %></span
-            >
-            <div class="ticket-card-footer">
-              <span class="assignee"
-                ><strong>Assignee:</strong> <%= ticket.assignedTo %></span
-              >
-              <div>
-                <span
-                  class="priority-label priority-<%= ticket.priorityLevel %>"
-                  ><%= ticket.priorityLevel %></span
-                >
-                <a href="/chat?ticketId=<%= ticket._id %>" class="chat-btn"
-                  >Chat</a
-                >
-              </div>
-            </div>
-          </div>
-          <% } %> <% }); %> <% } %>
+          <!-- create a ticket for each ticket got from the server -->
+          <%- include('partials/displaytickets') %>
         </div>
       </section>
     </div>
-    <script src="/scripts/employeetickets.js"></script>
+    <script src="/scripts/mytickets.js"></script>
     <%- include('partials/footer') %> <%- include('partials/bootstrapjs') %>
   </body>
 </html>

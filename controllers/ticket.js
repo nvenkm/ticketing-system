@@ -1,13 +1,25 @@
 const { Ticket } = require("../models/ticket");
 
-async function handleGetAllTickets(req, res) {
-  if (!req.session.isLoggedIn && !req.session.employeeIsLoggedIn) {
+async function handleGetAllUserTickets(req, res) {
+  if (!req.session.isLoggedIn) {
     console.log("sending to homepage");
     return res.redirect("/");
   }
   const tickets = await Ticket.find({ createdBy: req.session.email });
-  res.render("mytickets", {
+  res.render("displayusertickets", {
     tickets,
+  });
+}
+
+async function handleGetAllEmployeeTickets(req, res) {
+  if (!req.session.employeeIsLoggedIn) {
+    console.log("sending to homepage");
+    return res.redirect("/");
+  }
+  const tickets = await Ticket.find({ createdBy: req.session.email });
+  res.render("displayemployeetickets", {
+    tickets,
+    departments: ["Customer", "IT", "Sales", "HR", "Finance", "Marketing"],
   });
 }
 
@@ -41,5 +53,6 @@ async function handleCloseTicket(req, res) {
 module.exports = {
   handleCreateTicket,
   handleCloseTicket,
-  handleGetAllTickets,
+  handleGetAllUserTickets,
+  handleGetAllEmployeeTickets,
 };

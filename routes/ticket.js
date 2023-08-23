@@ -3,10 +3,13 @@ const ticketRouter = express.Router();
 const {
   handleCreateTicket,
   handleCloseTicket,
-  handleGetAllTickets,
+  handleGetAllUserTickets,
+  handleGetAllEmployeeTickets,
 } = require("../controllers/ticket");
 
-ticketRouter.get("/", handleGetAllTickets);
+ticketRouter.get("/user", handleGetAllUserTickets);
+
+ticketRouter.get("/employee", handleGetAllEmployeeTickets);
 
 ticketRouter.post("/create", handleCreateTicket);
 

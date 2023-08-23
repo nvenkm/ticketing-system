@@ -103,12 +103,17 @@
     </div>
     <div class="container chat-container" id="chatContainer">
       <!-- Messages will be inserted here -->
+
       <% if (typeof oldMessages !== 'undefined') { %> <%
       oldMessages.forEach(message => { %>
 
       <div class="message">
         <div class="name-message-container">
+          <% if (message.sender === username) { %>
+          <span class="sender">You:</span>
+          <% } else { %>
           <span class="sender"><%=message.sender%>:</span>
+          <%}%>
           <p class="message-text"><%=message.messageText%></p>
         </div>
       </div>
