@@ -32,7 +32,7 @@ async function handleCreateTicket(req, res) {
     priorityLevel: req.body.priority,
   });
   await ticket.save();
-  res.redirect("/ticket");
+  res.redirect("/");
 }
 async function handleCloseTicket(req, res) {
   try {
