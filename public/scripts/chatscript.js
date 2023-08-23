@@ -17,6 +17,7 @@ messageForm.addEventListener("submit", (e) => {
   const message = messageInput.value;
   if (message.trim() !== "") {
     socket.emit("chat-message", { message, ticketId, sender });
+    messageInput.value = "";
   }
 });
 
@@ -24,7 +25,7 @@ socket.on("chat-message", (data) => {
   const messageSender = data.sentBy === sender ? "You:" : data.sentBy + ":";
   const messageElement = createMessageElement(messageSender, data.message);
   chatContainer.appendChild(messageElement);
-  messageInput.value = "";
+
   chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
