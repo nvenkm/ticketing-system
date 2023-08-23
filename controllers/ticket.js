@@ -1,13 +1,13 @@
 const { Ticket } = require("../models/ticket");
 
 async function handleGetAllTickets(req, res) {
-  if (!req.session.isLoggedIn) {
+  if (!req.session.isLoggedIn && !req.session.employeeIsLoggedIn) {
+    console.log("sending to homepage");
     return res.redirect("/");
   }
   const tickets = await Ticket.find({ createdBy: req.session.email });
   res.render("mytickets", {
     tickets,
-    departments: ["Lakshmi Chit Fund", "SBI"],
   });
 }
 

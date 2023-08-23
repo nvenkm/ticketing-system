@@ -15,6 +15,7 @@ const ticketSchema = new mongoose.Schema({
   },
   assignedTo: {
     type: String,
+    default: "Customer",
     required: true,
   },
   status: {

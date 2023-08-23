@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Resolver Login</title>
+    <title>Employee Login</title>
     <%- include('partials/bootstrapcss') %>
   </head>
 
@@ -51,8 +51,8 @@
   <body>
     <%- include('partials/navbar') %>
     <section class="login-section">
-      <h2>Resolver Login</h2>
-      <form class="container-fluid" action="/resolver/login" method="post">
+      <h2>Employee Login</h2>
+      <form class="container-fluid" action="/employee/login" method="post">
         <input type="email" placeholder="Email ID" name="email" />
         <input type="password" placeholder="Password" name="password" />
         <button class="login-btn">Login</button>

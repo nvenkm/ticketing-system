@@ -301,15 +301,6 @@
                       required
                     ></textarea>
 
-                    <label for="assignee">Assign To</label>
-                    <select id="assignee" name="assignee" required>
-                      <% departments.forEach(department => { %>
-                      <option value="<%= department %>">
-                        <%= department %>
-                      </option>
-                      <% }); %>
-                    </select>
-
                     <label for="priority">Priority Level</label>
                     <select id="priority" name="priority" required>
                       <option value="low">Low</option>

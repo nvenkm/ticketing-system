@@ -9,12 +9,11 @@ function handleSendChatPage(req, res) {
 }
 
 async function handleChat(req, res) {
-  if (!req.session.isLoggedIn && !req.session.resolverIsLoggedIn) {
+  if (!req.session.isLoggedIn && !req.session.employeeIsLoggedIn) {
     res.redirect("/");
   }
-  if (req.session.isLoggedIn || req.session.resolverIsLoggedIn) {
+  if (req.session.isLoggedIn || req.session.employeeIsLoggedIn) {
     const ticketId = req.query.ticketId;
-    const department = req.query.department;
     // console.log(req.session.fullName || req.session.name, ticketId);
 
     const oldMessages = await Message.find({ ticketId });

@@ -9,6 +9,7 @@ const fileInput = document.getElementById("fileInput");
 const sendButton = document.getElementById("sendButton");
 const messageForm = document.getElementById("message-form");
 const sender = document.querySelector(".username").textContent;
+
 socket.emit("join-room", ticketId);
 
 messageForm.addEventListener("submit", (e) => {

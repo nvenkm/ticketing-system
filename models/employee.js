@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const resolverSchema = new mongoose.Schema({
+const employeeSchema = new mongoose.Schema({
   fullName: {
     type: String,
     required: true,
@@ -20,8 +20,8 @@ const resolverSchema = new mongoose.Schema({
   },
 });
 
-const Resolver = new mongoose.model("Resolver", resolverSchema);
+const Employee = new mongoose.model("Employee", employeeSchema);
 
 module.exports = {
-  Resolver,
+  Employee,
 };

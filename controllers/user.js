@@ -12,7 +12,6 @@ function handleSendUserDashboardPage(req, res) {
   }
   try {
     res.render("dashboard", {
-      departments: ["Lakshmi Chit Fund", "SBI"],
       username: req.session.fullName,
     });
   } catch (error) {
@@ -40,7 +39,6 @@ async function handleUserSignup(req, res) {
       fullName: req.body.fullName.trim(),
       email: req.body.email,
       password: req.body.password,
-      userType: req.body.userType,
     };
     // console.log(newUser);
     // console.log(req.body);
@@ -63,7 +61,6 @@ async function handleUserLogin(req, res) {
     req.session.isLoggedIn = true;
     req.session.email = user.email;
     req.session.fullName = user.fullName;
-    req.session.userType = user.userType;
     res.status(200).redirect("/user/dashboard");
   } else {
     res.render("login", { message: "Wrong Email Id or Password" });

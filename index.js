@@ -10,7 +10,7 @@ const session = require("express-session");
 const ejs = require("ejs");
 const { userRouter } = require("./routes/user");
 const { ticketRouter } = require("./routes/ticket");
-const { resolverRouter } = require("./routes/resolver");
+const { employeeRouter } = require("./routes/employee");
 const { chatRouter } = require("./routes/chat");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -47,14 +47,14 @@ app.use(express.json());
 //routes
 app.use("/user", userRouter);
 app.use("/ticket", ticketRouter);
-app.use("/resolver", resolverRouter);
+app.use("/employee", employeeRouter);
 app.use("/chat", chatRouter);
 
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
     return res.redirect("/user/dashboard");
-  } else if (req.session.resolverIsLoggedIn) {
-    return res.redirect("/resolver/dashboard");
+  } else if (req.session.employeeIsLoggedIn) {
+    return res.redirect("/employee/dashboard");
   }
   res.render("home");
 });
