@@ -60,6 +60,9 @@ async function handleEmployeeLogout(req, res) {
     return res.redirect("/employee/login");
   }
   req.session.employeeIsLoggedIn = false;
+  req.session.email = "";
+  req.session.name = "";
+  req.session.department = "";
   res.redirect("/");
 }
 

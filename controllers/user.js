@@ -69,6 +69,8 @@ async function handleUserLogin(req, res) {
 
 function handleUserLogout(req, res) {
   req.session.isLoggedIn = false;
+  req.session.emal = "";
+  req.session.fullName = "";
   res.redirect("/");
 }
 
