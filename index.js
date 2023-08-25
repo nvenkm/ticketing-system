@@ -13,10 +13,12 @@ const { ticketRouter } = require("./routes/ticket");
 const { employeeRouter } = require("./routes/employee");
 const { chatRouter } = require("./routes/chat");
 const mongoose = require("mongoose");
+
 const dotenv = require("dotenv");
 const { log } = require("util");
 const { Message } = require("./models/message");
 dotenv.config();
+const multer = require("multer");
 
 const PORT = process.env.PORT;
 const uri = process.env.URL;
@@ -40,6 +42,8 @@ app.use(
   })
 );
 
+//multer
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.json());
@@ -48,7 +52,7 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/ticket", ticketRouter);
 app.use("/employee", employeeRouter);
-app.use("/chat", chatRouter);
+// app.use("/chat", chatRouter);
 
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
@@ -72,18 +76,9 @@ io.on("connection", (socket) => {
   });
   console.log("A user connected");
 
-  socket.on("chat-message", async (data) => {
-    // console.log(data.message);
-    const newMessage = new Message({
-      sender: data.sender,
-      messageText: data.message,
-      ticketId: data.ticketId,
-    });
-
-    await newMessage.save();
-
+  socket.on("chat-message", (data) => {
     io.to(data.ticketId).emit("chat-message", {
-      message: data.message,
+      message: data.messageText,
       sentBy: data.sender,
     });
   });
