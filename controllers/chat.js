@@ -1,7 +1,3 @@
-const io = require("socket.io");
-const mongoose = require("mongoose");
-const User = require("../models/user");
-const Ticket = require("../models/ticket");
 const { Message } = require("../models/message");
 
 function handleSendChatPage(req, res) {
@@ -21,13 +17,39 @@ async function handleChat(req, res) {
       ticketId,
       username: req.session.fullName || req.session.name,
       oldMessages,
+      wrongFileExtension: req.wrongFileExtension,
     });
 
     // res.render("chat", req.session.username || req.session.name);
   }
 }
 
+async function handleChatMessage(req, res) {
+  if (!req.session.isLoggedIn && !req.session.employeeIsLoggedIn) {
+    res.redirect("/");
+  }
+  try {
+    if (req.wrongFileExtension) {
+      return res.json({ wrongFileExtension: req.wrongFileExtension });
+    }
+    const receivedMessage = {
+      sender: req.body.sender,
+      messageText: req.body.messageText,
+      ticketId: req.body.ticketId,
+      file: req.file ? req.file.path.slice(6) : "",
+      fileType: req.fileType,
+    };
+    const newMessage = new Message(receivedMessage);
+    await newMessage.save();
+    console.log(newMessage);
+    res.json(newMessage);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   handleChat,
   handleSendChatPage,
+  handleChatMessage,
 };
