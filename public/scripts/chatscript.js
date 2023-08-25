@@ -14,31 +14,66 @@ socket.emit("join-room", ticketId);
 
 messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const message = messageInput.value;
-  if (message.trim() !== "") {
-    socket.emit("chat-message", { message, ticketId, sender });
-    messageInput.value = "";
+  const message = messageInput.value.trim();
+  const file = fileInput.files[0];
+  // console.log(message, !file);
+  const fd = new FormData();
+  if (message !== "" || file) {
+    fd.append("messageText", message);
+    fd.append("file", fileInput.files[0]);
+    fd.append("ticketId", ticketId);
+    fd.append("sender", sender);
+    fetch("chat/message", {
+      method: "POST",
+      body: fd,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        var file = data.file;
+        socket.emit("chat-message", data);
+
+        messageInput.value = "";
+      });
+
+    // console.log("FORM DATA:", fd);
+    if (message !== "" || !file) {
+      console.log(file);
+    }
   }
 });
 
 socket.on("chat-message", (data) => {
   const messageSender = data.sentBy === sender ? "You:" : data.sentBy + ":";
-  const messageElement = createMessageElement(messageSender, data.message);
+  const messageElement = createMessageElement(
+    messageSender,
+    data.message,
+    data.file
+  );
   chatContainer.appendChild(messageElement);
-
   chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
-function createMessageElement(name, message) {
+function createMessageElement(name, message, file) {
   const messageDiv = document.createElement("div");
   messageDiv.className = "message ";
 
-  const messageContent = `
+  const messageContent = file
+    ? `
           <div class="name-message-container" >
           <span class="sender" >${name}</span>
           <p class="message-text" >${message}</p>
+          <img src="${file}">
           </div>
-        `;
+        `
+    : `
+        <div class="name-message-container" >
+        <span class="sender" >${name}</span>
+        <p class="message-text" >${message}</p>
+        </div>
+      `;
 
   messageDiv.innerHTML = messageContent;
   return messageDiv;

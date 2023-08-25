@@ -54,6 +54,7 @@
     .input-container {
       display: flex;
       /* margin-top: 10px; */
+      align-items: center;
       width: 79vw;
       margin: auto;
       padding: 0px 20px 20px;
@@ -64,10 +65,6 @@
       padding: 5px;
       border: 1px solid #ccc;
       border-radius: 5px;
-    }
-
-    .file-input {
-      display: none;
     }
 
     .send-button {
@@ -90,6 +87,10 @@
 
     .name-message-container {
       display: flex;
+    }
+
+    img {
+      width: 100px;
     }
   </style>
   <%- include('partials/bootstrapcss') %>
@@ -115,6 +116,7 @@
           <span class="sender"><%=message.sender%>:</span>
           <%}%>
           <p class="message-text"><%=message.messageText%></p>
+          <img src="<%= message.file %>" alt="" />
         </div>
       </div>
 

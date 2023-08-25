@@ -7,7 +7,7 @@ const messageSchema = new mongoose.Schema({
   },
   messageText: {
     type: String,
-    required: true,
+    default: "",
   },
   ticketId: {
     type: String,
@@ -16,6 +16,10 @@ const messageSchema = new mongoose.Schema({
   timestamp: {
     type: Date,
     default: Date.now,
+  },
+  file: {
+    type: String,
+    default: "",
   },
 });
 
