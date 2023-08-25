@@ -17,6 +17,7 @@ async function handleChat(req, res) {
       ticketId,
       username: req.session.fullName || req.session.name,
       oldMessages,
+      wrongFileExtension: req.wrongFileExtension,
     });
 
     // res.render("chat", req.session.username || req.session.name);
@@ -28,11 +29,15 @@ async function handleChatMessage(req, res) {
     res.redirect("/");
   }
   try {
+    if (req.wrongFileExtension) {
+      return res.json({ wrongFileExtension: req.wrongFileExtension });
+    }
     const receivedMessage = {
       sender: req.body.sender,
       messageText: req.body.messageText,
       ticketId: req.body.ticketId,
       file: req.file ? req.file.path.slice(6) : "",
+      fileType: req.fileType,
     };
     const newMessage = new Message(receivedMessage);
     await newMessage.save();

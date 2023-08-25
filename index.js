@@ -52,7 +52,7 @@ app.use(express.json());
 app.use("/user", userRouter);
 app.use("/ticket", ticketRouter);
 app.use("/employee", employeeRouter);
-// app.use("/chat", chatRouter);
+app.use("/chat", chatRouter);
 
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
@@ -80,6 +80,8 @@ io.on("connection", (socket) => {
     io.to(data.ticketId).emit("chat-message", {
       message: data.messageText,
       sentBy: data.sender,
+      file: data.file,
+      fileType: data.fileType,
     });
   });
 });

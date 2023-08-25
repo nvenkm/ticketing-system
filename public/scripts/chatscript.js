@@ -23,6 +23,7 @@ messageForm.addEventListener("submit", (e) => {
     fd.append("file", fileInput.files[0]);
     fd.append("ticketId", ticketId);
     fd.append("sender", sender);
+
     fetch("chat/message", {
       method: "POST",
       body: fd,
@@ -31,11 +32,15 @@ messageForm.addEventListener("submit", (e) => {
         return response.json();
       })
       .then((data) => {
+        if (data.wrongFileExtension) {
+          alert(data.wrongFileExtension);
+        }
         console.log(data);
         var file = data.file;
         socket.emit("chat-message", data);
 
         messageInput.value = "";
+        fileInput.value = "";
       });
 
     // console.log("FORM DATA:", fd);
@@ -50,24 +55,36 @@ socket.on("chat-message", (data) => {
   const messageElement = createMessageElement(
     messageSender,
     data.message,
-    data.file
+    data.file,
+    data.fileType
   );
   chatContainer.appendChild(messageElement);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 });
 
-function createMessageElement(name, message, file) {
+function createMessageElement(name, message, file, fileType) {
   const messageDiv = document.createElement("div");
   messageDiv.className = "message ";
 
   const messageContent = file
-    ? `
-          <div class="name-message-container" >
-          <span class="sender" >${name}</span>
-          <p class="message-text" >${message}</p>
-          <img src="${file}">
-          </div>
+    ? fileType === "pdf"
+      ? `
+      <div class="name-message-container" >
+        <span class="sender" >${name}</span>
+        <p class="message-text" >${message}</p>
+        <a class="file-link" href="${file}" target="_blank">${
+          file.split("/")[2].split("_")[2]
+        }</a>
+        </div>
+          
         `
+      : `
+      <div class="name-message-container" >
+      <span class="sender" >${name}</span>
+      <p class="message-text" >${message}</p>
+      <img src="${file}">
+      </div>
+      `
     : `
         <div class="name-message-container" >
         <span class="sender" >${name}</span>

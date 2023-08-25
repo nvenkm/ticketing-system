@@ -92,6 +92,10 @@
     img {
       width: 100px;
     }
+
+    .file-link {
+      margin-left: 2rem;
+    }
   </style>
   <%- include('partials/bootstrapcss') %>
   <body>
@@ -116,7 +120,15 @@
           <span class="sender"><%=message.sender%>:</span>
           <%}%>
           <p class="message-text"><%=message.messageText%></p>
+
+          <% if(message.fileType==='pdf') { %>
+          <a class="file-link" href="<%=message.file%>" target="_blank"
+            ><%=message.file.split('/')%></a
+          >
+          <%} else { %>
+
           <img src="<%= message.file %>" alt="" />
+          <% }%>
         </div>
       </div>
 
@@ -130,6 +142,9 @@
         placeholder="Type your message"
       />
       <input class="file-input" id="fileInput" type="file" />
+      <% if (typeof wrongFileExtension !=='undefined') { %>
+      <p><%= wrongFileExtension %></p>
+      <% } %>
       <button type="submit" class="send-button" id="sendButton">Send</button>
     </form>
 

@@ -21,6 +21,10 @@ const messageSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  fileType: {
+    type: String,
+    default: "",
+  },
 });
 
 const Message = new mongoose.model("Message", messageSchema);

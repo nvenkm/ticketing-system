@@ -13,7 +13,28 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const multerFilter = (req, file, cb) => {
+  if (
+    file.mimetype.split("/")[1] === "pdf" ||
+    file.mimetype.split("/")[1] === "jpg" ||
+    file.mimetype.split("/")[1] === "jpeg" ||
+    file.mimetype.split("/")[1] === "png" ||
+    file.mimetype.split("/")[1] === "svg" ||
+    file.mimetype.split("/")[1] === "gif" ||
+    file.mimetype.split("/")[1] === "bpm"
+  ) {
+    req.fileType = file.mimetype.split("/")[1];
+    cb(null, true);
+  } else {
+    req.wrongFileExtension = "Only Images and PDF files are allowed!";
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: multerFilter,
+});
 
 // chatRouter.get("/", handleSendChatPage);
 chatRouter.get("/", handleChat);
