@@ -5,17 +5,26 @@ function handleSendChatPage(req, res) {
 }
 
 async function handleChat(req, res) {
-  if (!req.session.isLoggedIn && !req.session.employeeIsLoggedIn) {
+  if (
+    !req.session.isLoggedIn &&
+    !req.session.employeeIsLoggedIn &&
+    !req.session.adminIsLoggedIn
+  ) {
     res.redirect("/");
   }
-  if (req.session.isLoggedIn || req.session.employeeIsLoggedIn) {
+  if (
+    req.session.isLoggedIn ||
+    req.session.employeeIsLoggedIn ||
+    req.session.adminIsLoggedIn
+  ) {
     const ticketId = req.query.ticketId;
     // console.log(req.session.fullName || req.session.name, ticketId);
 
     const oldMessages = await Message.find({ ticketId });
     res.render("chat", {
       ticketId,
-      username: req.session.fullName || req.session.name,
+      username:
+        req.session.fullName || req.session.name || req.session.adminFullName,
       oldMessages,
       wrongFileExtension: req.wrongFileExtension,
     });
@@ -25,7 +34,11 @@ async function handleChat(req, res) {
 }
 
 async function handleChatMessage(req, res) {
-  if (!req.session.isLoggedIn && !req.session.employeeIsLoggedIn) {
+  if (
+    !req.session.isLoggedIn &&
+    !req.session.employeeIsLoggedIn &&
+    !req.session.adminIsLoggedIn
+  ) {
     res.redirect("/");
   }
   try {

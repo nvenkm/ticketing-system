@@ -12,6 +12,7 @@ const { userRouter } = require("./routes/user");
 const { ticketRouter } = require("./routes/ticket");
 const { employeeRouter } = require("./routes/employee");
 const { chatRouter } = require("./routes/chat");
+const { adminRouter } = require("./routes/admin");
 const mongoose = require("mongoose");
 
 const dotenv = require("dotenv");
@@ -53,12 +54,15 @@ app.use("/user", userRouter);
 app.use("/ticket", ticketRouter);
 app.use("/employee", employeeRouter);
 app.use("/chat", chatRouter);
+app.use("/admin", adminRouter);
 
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
     return res.redirect("/user/dashboard");
   } else if (req.session.employeeIsLoggedIn) {
     return res.redirect("/employee/dashboard");
+  } else if (req.session.adminIsLoggedIn) {
+    return res.redirect("/admin/dashboard");
   }
   res.render("home");
 });
