@@ -18,7 +18,7 @@ async function handleGetAllTickets(req, res) {
     query.assignedTo = req.query.department;
   }
 
-  console.log(query);
+  // console.log(query);
 
   // const page = parseInt(req.query.page) || 1;
   // const perPage = 6;
@@ -28,7 +28,7 @@ async function handleGetAllTickets(req, res) {
   // .limit(perPage);
 
   const totalTickets = await Ticket.countDocuments(query);
-  console.log(totalTickets);
+  // console.log(totalTickets);
   // const totalPages = Math.ceil(totalTickets / perPage);
 
   res.json({
@@ -42,7 +42,7 @@ async function handleGetAllTickets(req, res) {
 
 async function handleGetAllUserTickets(req, res) {
   if (!req.session.isLoggedIn) {
-    console.log("sending to homepage");
+    // console.log("sending to homepage");
     return res.redirect("/");
   }
   const tickets = await Ticket.find({ createdBy: req.session.email });
@@ -53,7 +53,7 @@ async function handleGetAllUserTickets(req, res) {
 
 async function handleGetAllEmployeeTickets(req, res) {
   if (!req.session.employeeIsLoggedIn) {
-    console.log("sending to homepage");
+    // console.log("sending to homepage");
     return res.redirect("/");
   }
   const tickets = await Ticket.find({ createdBy: req.session.email });
