@@ -3,7 +3,6 @@ const { Ticket } = require("../models/ticket");
 
 function handleEmployeeSendLoginPage(req, res) {
   if (req.session.employeeIsLoggedIn) {
-    // return res.render("employeeDashboard");
     return res.redirect("/employee/dashboard");
   }
   res.render("employeeLogin");
