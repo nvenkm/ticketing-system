@@ -221,8 +221,16 @@
               <option value="high">high</option>
             </select>
             <label for="department">Department</label>
-            <select class="form-select" name="department" id="department">
+            <select
+              class="form-select"
+              name="queryDepartment"
+              id="queryDepartment"
+            >
               <!-- departments will be inserted here -->
+              <option value=""></option>
+              <% departments.forEach(department => { %>
+              <option value="<%= department %>"><%= department %></option>
+              <% }) %>
             </select>
             <button id="submit-queries" class="btn btn-dark">Filter</button>
           </form>

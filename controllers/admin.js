@@ -65,7 +65,9 @@ function handleSendAdminDashboard(req, res) {
     return res.redirect("/");
   }
 
-  res.render("admindashboard");
+  res.render("admindashboard", {
+    departments: ["Customer", "IT", "Sales", "HR", "Finance", "Marketing"],
+  });
   //   res.render("admindashboard");
 }
 

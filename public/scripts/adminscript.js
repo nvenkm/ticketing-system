@@ -17,7 +17,8 @@ filterForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const status = document.getElementById("status").value;
   const priorityLevel = document.getElementById("priority-level").value;
-  const department = document.getElementById("department").value;
+  const department = document.getElementById("queryDepartment").value;
+  console.log(department);
 
   fetch(
     `/ticket/all?status=${status}&priorityLevel=${priorityLevel}&department=${department}`,
@@ -44,37 +45,34 @@ function fillTicketData(data) {
   ticketDataContainer.classList.remove("ticket-data");
 
   //filling the department select
-  departmentSelect.innerHTML = "";
-  departmentSelect.innerHTML = `<option value="" ><option>`;
-  data.departments.forEach((department) => {
-    departmentSelect.innerHTML += `<option value="${department}">${department}</option>`;
-  });
 
   // filling the ticket table body.
   ticketTableBody.innerHTML = "";
 
   data.tickets.forEach((ticket) => {
-    ticketTableBody.innerHTML += `<tr>
-         <th scope="row">${ticket._id}</th>
-         <td>${ticket.createdBy}</td>
-         <td>${ticket.title}</td>
-         <td>${ticket.description}</td>
-         <td>${ticket.assignedTo}</td>
-         <td>${ticket.status}</td>
-         <td>
-         <span class="priority-label priority-${ticket.priorityLevel}">${ticket.priorityLevel}</span>
-         </td>
-         <td><a
-         href="/chat?ticketId=${ticket._id}"
-         ticket-id="${ticket._id}"
-         type="button"
-         id="chat-button"
-         class="chat-btn"
-         target="_blank"
-       >
-         Chat
-       </a></td>
+    ticketTableBody.innerHTML += `
+       <tr>
+          <th scope="row">${ticket._id}</th>
 
+          <td>${ticket.createdBy}</td>
+          <td>${ticket.title}</td>
+          <td>${ticket.description}</td>
+          <td>${ticket.assignedTo}</td>
+          <td>${ticket.status}</td>
+
+          <td>
+          <span class="priority-label priority-${ticket.priorityLevel}">${ticket.priorityLevel}</span>
+          </td>
+
+          <td>
+            <a href="/chat?ticketId=${ticket._id}"
+              ticket-id="${ticket._id}"
+              type="button"
+              id="chat-button"
+              class="chat-btn"
+              target="_blank">Chat
+            </a>
+          </td>
        </tr>`;
   });
 }

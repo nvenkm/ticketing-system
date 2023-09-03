@@ -25,6 +25,7 @@ async function handleGetAllTickets(req, res) {
 
   const tickets = await Ticket.find(query);
   // .skip((page - 1) * perPage)
+  // console.log(tickets);
   // .limit(perPage);
 
   const totalTickets = await Ticket.countDocuments(query);
