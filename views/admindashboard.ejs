@@ -191,6 +191,18 @@
           flex: 0 0 0;
         }
       }
+
+      #filter-form {
+        gap: 10px;
+      }
+
+      .search-ticket-form {
+        margin-bottom: 5px;
+        max-width: 100%;
+        display: flex;
+        width: fit-content;
+        gap: 10px;
+      }
     </style>
   </head>
   <body>
@@ -234,6 +246,26 @@
             </select>
             <button id="submit-queries" class="btn btn-dark">Filter</button>
           </form>
+
+          <!-- search tickets form  -->
+          <form class="search-ticket-form" id="search-ticket-form">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search tickets"
+              name="search"
+              id="search"
+            />
+            <button
+              type="submit"
+              id="search-tickets-button"
+              class="btn btn-md btn-dark"
+            >
+              Search
+            </button>
+          </form>
+
+          <!-- Table to display tickets -->
           <div class="table-responsive">
             <table class="table table-light table-striped table-bordered">
               <thead class="table-dark">
@@ -253,13 +285,7 @@
               </tbody>
             </table>
           </div>
-
-          <!-- <ul id="page-list" class="pagination justify-content-center mt-2"> -->
-          <!-- pagination will be inserted here -->
-          <!-- </ul> -->
         </div>
-
-        <ul class="pagination justify-content-center mt-2"></ul>
       </div>
     </div>
 

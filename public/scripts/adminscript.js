@@ -7,6 +7,23 @@ getAllTicketsButton.addEventListener("click", (e) => {
     })
     .then((data) => {
       fillTicketData(data);
+
+      //select the search form
+      const searchTicketForm = document.getElementById("search-ticket-form");
+
+      //add a listener to the search form
+      searchTicketForm.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const search = document.getElementById("search").value;
+        fetch(`/search/tickets?search=${search}`)
+          .then((res) => {
+            return res.json();
+          })
+          .then((searchData) => {
+            console.log(searchData);
+            fillTicketData(searchData);
+          });
+      });
     });
 });
 

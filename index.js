@@ -14,6 +14,7 @@ const { ticketRouter } = require("./routes/ticket");
 const { employeeRouter } = require("./routes/employee");
 const { chatRouter } = require("./routes/chat");
 const { adminRouter } = require("./routes/admin");
+const { searchRouter } = require("./routes/search");
 const mongoose = require("mongoose");
 
 const { log } = require("util");
@@ -57,6 +58,7 @@ app.use("/ticket", ticketRouter);
 app.use("/employee", employeeRouter);
 app.use("/chat", chatRouter);
 app.use("/admin", adminRouter);
+app.use("/search", searchRouter);
 
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
