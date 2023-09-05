@@ -54,7 +54,7 @@ async function handleChatMessage(req, res) {
     };
     const newMessage = new Message(receivedMessage);
     await newMessage.save();
-    console.log(newMessage);
+    // console.log(newMessage);
     res.json(newMessage);
   } catch (error) {
     console.log(error.message);

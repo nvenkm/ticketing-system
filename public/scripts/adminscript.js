@@ -35,10 +35,11 @@ filterForm.addEventListener("submit", (e) => {
   const status = document.getElementById("status").value;
   const priorityLevel = document.getElementById("priority-level").value;
   const department = document.getElementById("queryDepartment").value;
+  const sortBy = document.getElementById("sortBy").value;
   console.log(department);
 
   fetch(
-    `/ticket/all?status=${status}&priorityLevel=${priorityLevel}&department=${department}`,
+    `/ticket/all?status=${status}&priorityLevel=${priorityLevel}&department=${department}&sort=${sortBy}`,
     {
       method: "get",
     }

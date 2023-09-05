@@ -244,6 +244,14 @@
               <option value="<%= department %>"><%= department %></option>
               <% }) %>
             </select>
+
+            <label for="sortBy">Sort By</label>
+            <select class="form-select" name="sortBy" id="sortBy">
+              <option value=""></option>
+              <option value="createdAt">Data Added</option>
+              <option value="priorityRank">Priority</option>
+            </select>
+
             <button id="submit-queries" class="btn btn-dark">Filter</button>
           </form>
 
