@@ -1,0 +1,179 @@
+<style>
+  .sidebar-button {
+    width: 100%;
+  }
+  /* .add-employee-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  } */
+
+  /* Reset some default form styles */
+  .add-employee-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    max-width: 300px; /* Adjust the maximum width as needed */
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 20px;
+    border: 1px solid #ccc; /* Add a border for better separation */
+    border-radius: 5px;
+    background-color: #f9f9f9; /* Add a background color for better readability */
+  }
+
+  .add-employee-form div {
+    width: 100%;
+  }
+
+  /* Style the labels */
+  .add-employee-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  /* Style the input fields */
+  .add-employee-form input {
+    width: 100%; /* Make the inputs full-width within the form */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  .department-select {
+    width: 100%; /* Make the inputs full-width within the form */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    background-color: white;
+  }
+  /* Style the submit button */
+  .add-employee-form button[type="submit"] {
+    background-color: #333;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  /* Style the submit button on hover */
+  .add-employee-form button[type="submit"]:hover {
+    background-color: #555;
+  }
+</style>
+<nav class="dashboard-nav">
+  <ul>
+    <li>
+      <a
+        type="button"
+        id="get-all-tickets-button"
+        class="btn btn-dark sidebar-button"
+        >Show All Tickets</a
+      >
+    </li>
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+
+    <li>
+      <a class="btn btn-dark sidebar-button" href="/ticket/employee"
+        >Show All Users</a
+      >
+    </li>
+    <li>
+      <a class="btn btn-dark sidebar-button" href="/ticket/employee"
+        >Show All Employees</a
+      >
+    </li>
+    <li>
+      <a
+        class="btn btn-dark sidebar-button"
+        data-bs-toggle="modal"
+        data-bs-target="#addNewEmployee"
+        href="/ticket/employee"
+        >Add new Employee</a
+      >
+    </li>
+
+    <div
+      class="modal fade"
+      id="addNewEmployee"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="addNewEmployeeLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              Add new Employee
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form
+              action="/employee/signup"
+              method="post"
+              class="add-employee-form"
+            >
+              <div>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" required />
+              </div>
+
+              <div>
+                <label for="department">Department:</label>
+                <select
+                  class="department-select"
+                  name="department"
+                  id="department"
+                >
+                  <% departments.forEach(department => { %>
+                  <option value="<%=department%>"><%=department%></option>
+                  <% }) %>
+                </select>
+              </div>
+
+              <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required />
+              </div>
+
+              <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required />
+              </div>
+
+              <button
+                type="submit"
+                class="add-employee-btn btn btn-dark btn-sm"
+              >
+                Add Employee
+              </button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ul>
+</nav>

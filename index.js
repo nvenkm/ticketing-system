@@ -1,3 +1,4 @@
+const dotenv = require("dotenv");
 const express = require("express");
 const app = express();
 const http = require("http");
@@ -12,13 +13,16 @@ const { userRouter } = require("./routes/user");
 const { ticketRouter } = require("./routes/ticket");
 const { employeeRouter } = require("./routes/employee");
 const { chatRouter } = require("./routes/chat");
+const { adminRouter } = require("./routes/admin");
+const { searchRouter } = require("./routes/search");
 const mongoose = require("mongoose");
 
-const dotenv = require("dotenv");
 const { log } = require("util");
 const { Message } = require("./models/message");
 dotenv.config();
 const multer = require("multer");
+
+const brcypt = require("bcrypt");
 
 const PORT = process.env.PORT;
 const uri = process.env.URL;
@@ -53,12 +57,16 @@ app.use("/user", userRouter);
 app.use("/ticket", ticketRouter);
 app.use("/employee", employeeRouter);
 app.use("/chat", chatRouter);
+app.use("/admin", adminRouter);
+app.use("/search", searchRouter);
 
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
     return res.redirect("/user/dashboard");
   } else if (req.session.employeeIsLoggedIn) {
     return res.redirect("/employee/dashboard");
+  } else if (req.session.adminIsLoggedIn) {
+    return res.redirect("/admin/dashboard");
   }
   res.render("home");
 });
@@ -85,3 +93,7 @@ io.on("connection", (socket) => {
     });
   });
 });
+
+const { addNewAdmin } = require("./controllers/admin");
+
+addNewAdmin("newAdmin", "newadmin@gmail.com", process.env.ADMIN_1_PASSWORD);

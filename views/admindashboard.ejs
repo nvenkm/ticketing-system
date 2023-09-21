@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <%- include('partials/bootstrapcss') %>
+    <style>
+      .dashboard-container {
+        display: flex;
+        padding: 0;
+        min-height: 100vh;
+      }
+
+      .dashboard-nav {
+        background-color: #333;
+        /* color: #fff; */
+        padding: 20px;
+        flex: 0 0 250px;
+      }
+
+      .dashboard-content {
+        flex: 1;
+        padding: 50px;
+        background-color: #f5f5f5;
+      }
+
+      .dashboard-nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .dashboard-nav li {
+        margin-bottom: 15px;
+      }
+
+      .dashboard-nav a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 18px;
+      }
+
+      .dashboard-btn {
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      /*form */
+      .create-ticket-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 50px;
+        background-color: #f5f5f5;
+      }
+
+      .create-ticket-form label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      .description {
+        width: 100%;
+      }
+      .create-ticket-form select,
+      .create-ticket-form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+      }
+
+      .create-ticket-btn {
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      .ticket-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .ticket-card {
+        background-color: #fff;
+
+        padding: 10px;
+        width: 23rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .ticket-card-header {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .ticket-card-heading {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .ticket-card-description {
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+
+      .ticket-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px;
+      }
+      .ticket-footer-right {
+        display: flex;
+        gap: 3px;
+      }
+      .priority-label {
+        font-weight: bold;
+        padding: 3px 8px;
+        border-radius: 3px;
+        color: #fff;
+      }
+
+      .priority-low {
+        background-color: green;
+      }
+
+      .priority-medium {
+        background-color: orange;
+      }
+
+      .priority-high {
+        background-color: red;
+      }
+
+      .chat-btn {
+        padding: 5px 10px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .chat-btn:hover {
+        background-color: #3c3b3b;
+      }
+      .chat-btn:active {
+        background-color: #3c3b3b;
+      }
+
+      .page-item:hover {
+        cursor: pointer;
+      }
+      .ticket-data {
+        display: none;
+      }
+
+      .page-item:hover {
+        cursor: pointer;
+      }
+
+      .form-select {
+        width: fit-content;
+      }
+
+      .query-container {
+        background-color: #ebebeb;
+        padding: 1rem;
+      }
+
+      form {
+        display: flex;
+
+        align-items: center;
+      }
+      @media (max-width: 767px) {
+        .dashboard-content {
+          padding: 1rem;
+        }
+        .dashboard-container {
+          display: flex;
+          flex-direction: column;
+        }
+        .dashboard-nav {
+          background-color: #333;
+          padding: 20px;
+          flex: 0 0 0;
+        }
+      }
+
+      #filter-form {
+        gap: 10px;
+      }
+
+      .search-ticket-form {
+        margin-bottom: 5px;
+        max-width: 100%;
+        display: flex;
+        width: fit-content;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- admin navbar -->
+    <%- include('partials/adminnavbar') %>
+    <div class="dashboard-container">
+      <%- include('partials/admindashboardsidebar') %>
+      <div class="dashboard-content">
+        <h2>Admin Dashboard</h2>
+        <!-- display tickets -->
+        <div id="ticket-data" class="ticket-data">
+          <form class="mb-3 mt-3" id="filter-form">
+            <label for="status">Status</label>
+            <select class="form-select" name="status" id="status">
+              <option value=""></option>
+              <option value="closed">closed</option>
+              <option value="pending">pending</option>
+            </select>
+            <label for="priority-level">Priority</label>
+            <select
+              class="form-select"
+              name="priorityLevel"
+              id="priority-level"
+            >
+              <option value=""></option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high">high</option>
+            </select>
+            <label for="department">Department</label>
+            <select
+              class="form-select"
+              name="queryDepartment"
+              id="queryDepartment"
+            >
+              <!-- departments will be inserted here -->
+              <option value=""></option>
+              <% departments.forEach(department => { %>
+              <option value="<%= department %>"><%= department %></option>
+              <% }) %>
+            </select>
+
+            <label for="sortBy">Sort By</label>
+            <select class="form-select" name="sortBy" id="sortBy">
+              <option value=""></option>
+              <option value="createdAt">Data Added</option>
+              <option value="priorityRank">Priority</option>
+            </select>
+
+            <button id="submit-queries" class="btn btn-dark">Filter</button>
+          </form>
+
+          <!-- search tickets form  -->
+          <form class="search-ticket-form" id="search-ticket-form">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search tickets"
+              name="search"
+              id="search"
+            />
+            <button
+              type="submit"
+              id="search-tickets-button"
+              class="btn btn-md btn-dark"
+            >
+              Search
+            </button>
+          </form>
+
+          <!-- Table to display tickets -->
+          <div class="table-responsive">
+            <table class="table table-light table-striped table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th scope="col"># Ticket ID</th>
+                  <th scope="col">Created By</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Assigned</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Priority</th>
+                  <th scope="col">Chat</th>
+                </tr>
+              </thead>
+              <tbody id="ticket-table-body">
+                <!-- table body will be inserted here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- bootstrap javascript -->
+    <script src="/scripts/adminscript.js"></script>
+    <%- include('partials/bootstrapjs') %>
+  </body>
+</html>

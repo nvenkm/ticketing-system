@@ -1,9 +1,9 @@
 const { Employee } = require("../models/employee");
 const { Ticket } = require("../models/ticket");
+const bcrypt = require("bcrypt");
 
 function handleEmployeeSendLoginPage(req, res) {
   if (req.session.employeeIsLoggedIn) {
-    // return res.render("employeeDashboard");
     return res.redirect("/employee/dashboard");
   }
   res.render("employeeLogin");
@@ -16,11 +16,35 @@ function handleEmployeeSendHomePage(req, res) {
   res.redirect("/");
 }
 
+async function handleAddNewEmployee(req, res) {
+  try {
+    const fullName = req.body.fullName;
+    const department = req.body.department;
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const hash = await bcrypt.hash(password, 10);
+    const newEmployee = new Employee({
+      fullName,
+      department,
+      email,
+      password: hash,
+    });
+
+    const savedEmployee = newEmployee.save();
+    if (savedEmployee) res.redirect("/");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function handleEmployeeLogin(req, res) {
   try {
+    const email = req.body.employee;
+    const password = req.body.password;
+
     const employee = await Employee.findOne({
       email: req.body.email.trim().toLowerCase(),
-      password: req.body.password,
     });
     // console.log(employee);
     if (!employee) {
@@ -28,12 +52,20 @@ async function handleEmployeeLogin(req, res) {
         message: "Incorrect Username or Password",
       });
     }
-    req.session.employeeIsLoggedIn = true;
-    req.session.email = employee.email;
-    req.session.name = employee.fullName;
-    req.session.department = employee.department;
 
-    res.redirect("/employee/dashboard");
+    const compare = await bcrypt.compare(password, employee.password);
+    if (compare) {
+      req.session.employeeIsLoggedIn = true;
+      req.session.email = employee.email;
+      req.session.name = employee.fullName;
+      req.session.department = employee.department;
+
+      res.redirect("/employee/dashboard");
+    } else {
+      return res.render("employeeLogin", {
+        message: "Incorrect Username or Password",
+      });
+    }
   } catch (error) {
     console.log(error.message);
   }
@@ -69,6 +101,7 @@ async function handleEmployeeLogout(req, res) {
 module.exports = {
   handleEmployeeSendLoginPage,
   handleEmployeeSendHomePage,
+  handleAddNewEmployee,
   handleEmployeeLogin,
   handleEmployeeDashboard,
   handleEmployeeLogout,

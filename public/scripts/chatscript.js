@@ -1,7 +1,7 @@
 const socket = io();
 const ticketIdElement = document.querySelector(".ticketId");
 const ticketId = ticketIdElement.textContent;
-console.log(ticketId);
+// console.log(ticketId);
 // JavaScript code for handling messages and sending data goes here
 const chatContainer = document.getElementById("chatContainer");
 const messageInput = document.getElementById("messageInput");
@@ -34,8 +34,11 @@ messageForm.addEventListener("submit", (e) => {
       .then((data) => {
         if (data.wrongFileExtension) {
           alert(data.wrongFileExtension);
+
+          messageInput.value = "";
+          fileInput.value = "";
         }
-        console.log(data);
+        // console.log(data);
         var file = data.file;
         socket.emit("chat-message", data);
 
@@ -45,7 +48,7 @@ messageForm.addEventListener("submit", (e) => {
 
     // console.log("FORM DATA:", fd);
     if (message !== "" || !file) {
-      console.log(file);
+      // console.log(file);
     }
   }
 });

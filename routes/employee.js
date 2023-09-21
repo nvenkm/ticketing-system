@@ -1,6 +1,7 @@
 const express = require("express");
 
 const {
+  handleAddNewEmployee,
   handleEmployeeLogin,
   handleEmployeeDashboard,
   handleEmployeeLogout,
@@ -13,6 +14,8 @@ const employeeRouter = express.Router();
 employeeRouter.get("/home", handleEmployeeSendHomePage);
 
 employeeRouter.get("/login", handleEmployeeSendLoginPage);
+
+employeeRouter.post("/signup", handleAddNewEmployee);
 
 employeeRouter.post("/login", handleEmployeeLogin);
 
