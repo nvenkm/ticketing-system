@@ -22,6 +22,7 @@ async function addNewAdmin(name, email, password) {
   }
 }
 
+//send the admin page
 function handleSendAdminLoginPage(req, res) {
   if (req.session.adminIsLoggedIn) {
     return res.redirect("/admin/dashboard");
@@ -29,6 +30,7 @@ function handleSendAdminLoginPage(req, res) {
   res.render("adminlogin");
 }
 
+//handle admin login
 async function handleAdminLogin(req, res) {
   if (req.session.adminIsLoggedIn) {
     return res.redirect("/admin/dashboard");
@@ -40,8 +42,10 @@ async function handleAdminLogin(req, res) {
   const admin = await Admin.findOne({ email });
 
   if (admin) {
+    //mathing the user enterred password with hash stored in Database
     const match = await bcrypt.compare(password, admin.password);
     if (match) {
+      //saving all details in the session
       req.session.adminIsLoggedIn = true;
       req.session.adminFullName = admin.fullName;
       req.session.adminEmail = admin.email;
@@ -54,12 +58,15 @@ async function handleAdminLogin(req, res) {
   }
 }
 
+//handle logout
 function handleAdminLogout(req, res) {
+  // resetting session variables
   req.session.adminIsLoggedIn = false;
   req.session.adminFullName = "";
   res.redirect("/");
 }
 
+//send dashboard if admin is logged in
 function handleSendAdminDashboard(req, res) {
   if (!req.session.adminIsLoggedIn) {
     return res.redirect("/");
