@@ -19,7 +19,7 @@ async function handleGetAllTickets(req, res) {
   }
 
   let sortQuery = req.query.sort || "createdAt";
-  console.log(sortQuery);
+  // console.log(sortQuery);
   // console.log(query);
 
   // const page = parseInt(req.query.page) || 1;
@@ -92,6 +92,7 @@ async function handleCreateTicket(req, res) {
 async function handleCloseTicket(req, res) {
   try {
     const id = req.params.id;
+    console.log(id);
     const updatedTicket = await Ticket.updateOne(
       { _id: id },
       { status: "closed" }

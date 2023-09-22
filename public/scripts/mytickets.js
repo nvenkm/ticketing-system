@@ -1,4 +1,7 @@
 const closeTicketButtons = document.querySelectorAll("#close-ticket-button");
+
+console.log(closeTicketButtons);
+
 closeTicketButtons.forEach((closeTicketButton) => {
   closeTicketButton.addEventListener("click", function (e) {
     const id = e.target.getAttribute("ticket-id");

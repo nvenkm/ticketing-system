@@ -1,10 +1,12 @@
 const { Message } = require("../models/message");
 
+//send the chat page
 function handleSendChatPage(req, res) {
   res.render("chat");
 }
 
 async function handleChat(req, res) {
+  //return to homepage if noone is loggedIn
   if (
     !req.session.isLoggedIn &&
     !req.session.employeeIsLoggedIn &&

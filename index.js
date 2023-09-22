@@ -1,30 +1,35 @@
 const dotenv = require("dotenv");
+dotenv.config();
+
+//creating express app
 const express = require("express");
 const app = express();
-const http = require("http");
 
+//creating http server using express app
+const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-
 const io = new Server(server);
+
 const session = require("express-session");
+
 const ejs = require("ejs");
+
+//requiring all routers
 const { userRouter } = require("./routes/user");
 const { ticketRouter } = require("./routes/ticket");
 const { employeeRouter } = require("./routes/employee");
 const { chatRouter } = require("./routes/chat");
 const { adminRouter } = require("./routes/admin");
 const { searchRouter } = require("./routes/search");
+
 const mongoose = require("mongoose");
 
-const { log } = require("util");
 const { Message } = require("./models/message");
-dotenv.config();
-const multer = require("multer");
-
-const brcypt = require("bcrypt");
 
 const PORT = process.env.PORT;
+
+//mongoDB uri
 const uri = process.env.URL;
 
 //connect to mongoDB
@@ -46,8 +51,6 @@ app.use(
   })
 );
 
-//multer
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.json());
@@ -60,6 +63,7 @@ app.use("/chat", chatRouter);
 app.use("/admin", adminRouter);
 app.use("/search", searchRouter);
 
+//homepage
 app.get("/", (req, res) => {
   if (req.session.isLoggedIn) {
     return res.redirect("/user/dashboard");
@@ -73,7 +77,7 @@ app.get("/", (req, res) => {
 
 //creating the server
 server.listen(PORT, () => {
-  console.log(`Server Runnning on PORT ${PORT}`);
+  console.log(`Server Runnning on PORT ${PORT} http://localhost:${PORT}`);
 });
 
 //socket.io code

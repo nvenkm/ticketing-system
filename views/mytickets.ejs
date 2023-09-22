@@ -276,7 +276,7 @@
                 type="button"
                 class="btn btn-danger btn-sm"
                 data-bs-toggle="modal"
-                data-bs-target="#exampleModal1"
+                data-bs-target="#exampleModal1<%= ticket._id %>"
               >
                 Close
               </button>
@@ -284,15 +284,18 @@
               <!-- Modal -->
               <div
                 class="modal fade"
-                id="exampleModal1"
+                id="exampleModal1<%= ticket._id %>"
                 tabindex="-1"
-                aria-labelledby="exampleModal1Label"
+                aria-labelledby="exampleModal1Label<%= ticket._id %>"
                 aria-hidden="true"
               >
                 <div class="modal-dialog">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModal1Label">
+                      <h1
+                        class="modal-title fs-5"
+                        id="exampleModal1Label<%= ticket._id %>"
+                      >
                         Confirmation
                       </h1>
                       <button
